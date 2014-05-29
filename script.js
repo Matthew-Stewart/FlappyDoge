@@ -4,14 +4,27 @@ var ctx = $('#canvas')[0].getContext('2d');
 var w = $('#canvas').width();
 var h = $('#canvas').height();
 
+var doge = new doge(50, 100, h/2-25, h/2+25, 0, 15);
+
+var pipes = [];
+
 function init () {
-	doge = new doge(50, 100, h/2-25, h/2+25, 0, 15);
-	pipes = [];
+	//doge = new doge(50, 100, h/2-25, h/2+25, 0, 15);
+	//pipes = [];
 	if(typeof game_loop != "undefined") clearInterval(game_loop);
 							 game_loop = setInterval(Paint, 25);
 }
 
 init();
+
+function reset () {
+	doge.y1 = h/2-25;
+	doge.y2 = h/2+25;
+	doge.a = 15;
+	doge.direction = 0;
+	pipes = [];
+	pipesCounter = 0;
+}
 
 function Paint() {
 	//control pipes
@@ -27,26 +40,19 @@ function Paint() {
 	for (var i in pipes) {
 		pipes[i].x1 -= 5;
 		pipes[i].x2 -= 5;
-		pipes[i].checkCollision(doge);
+		if (pipes[i].checkCollision(doge)) reset();
 	}
 
 	//control doge
 	doge.y1 -= doge.a;
 	doge.y2 -= doge.a;
 	
-	//collision
-	//if (this.a >= 0) {
-		if (doge.y1 <= 0) {
+
+		if (doge.y1 <= 0 || doge.y2 >= h) {
+			reset();
 			init();
 			return;
 		}
-	//}
-	//if (this.a <= 0) {
-		if (doge.y2 >= h) {
-			init();
-			return;
-		}
-	//}
 
 	if (doge.a > -15) {
 		doge.a -= 1
@@ -88,6 +94,14 @@ function Pipe (x1, width, gapY1, gapY2) {
 	}*/
 
 	this.checkCollision = function (thisDoge) {
+		//hitting top pipe
+		if (thisDoge.y1 < this.gapY1 && thisDoge.x2 > this.x1 && thisDoge.x1 < this.x2) {
+			return true;
+}
+//hitting bottom pipe
+if (thisDoge.y2 > this.gapY2 && thisDoge.x2 > this.x1 && thisDoge.x1 < this.x2) {
+			return true;
+}
 
 	}
 }
@@ -119,9 +133,7 @@ function doge (x1, x2, y1, y2, direction, a) {
 	}
 }
 
-var doge;
 
-var pipes;
 
 var pipesCounter = 0;
 
@@ -135,5 +147,17 @@ $(document).keydown(function(e){
 
 	}
 });
+
+
+function scores (score) {
+	$.ajax({
+           url : "https://www.dropbox.com/s/l2m5mth4c124aer/scores.txt",
+           dataType: "text",
+           success : function (data) {
+               $("#text").text(data);
+           }
+       });
+}
+
 
 });
