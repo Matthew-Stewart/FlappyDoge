@@ -5,15 +5,16 @@ var w = $('#canvas').width();
 var h = $('#canvas').height();
 
 function init () {
+	doge = new doge(50, 100, h/2-25, h/2+25, 0, 15);
+	pipes = [];
 	if(typeof game_loop != "undefined") clearInterval(game_loop);
-							  game_loop = setInterval(Paint, 25);
+							 game_loop = setInterval(Paint, 25);
 }
 
 init();
 
 function Paint() {
 	//control pipes
-	
 	if (pipesCounter >= 150 || pipes.length === 0) {
 		pipesCounter = 0;
 		var gap = Math.random()*(h-340)+75;
@@ -32,11 +33,33 @@ function Paint() {
 	//control doge
 	doge.y1 -= doge.a;
 	doge.y2 -= doge.a;
-	doge.wallCollision();
-	doge.a -= 1
+	
+	//collision
+	//if (this.a >= 0) {
+		if (doge.y1 <= 0) {
+			init();
+			return;
+		}
+	//}
+	//if (this.a <= 0) {
+		if (doge.y2 >= h) {
+			init();
+			return;
+		}
+	//}
+
+	if (doge.a > -15) {
+		doge.a -= 1
+	}
+	
 
 
 	//drawing
+	ctx.fillStyle = "white";
+	ctx.fillRect(0, 0, w, h);
+	ctx.strokeStyle = "black";
+	ctx.strokeRect(0, 0, w, h);
+
 	ctx.fillStyle = "white";
 	ctx.fillRect(0, 0, w, h);
 
@@ -83,19 +106,22 @@ function doge (x1, x2, y1, y2, direction, a) {
 	}
 
 	this.wallCollision = function () {
-		prompt("game Over", "asdf");
-			if (this.y1 < 0) {
-				prompt("game Over", "asdf");
+		if (this.a >= 0) {
+			if (this.y1 <= 0) {
+				init();
 			}
-			if (this.y2 > h) {
-				prompt("game Over", "asdf");
+		}
+		if (this.a <= 0) {
+			if (this.y2 >= h) {
+				init();
 			}
+		}
 	}
 }
 
-var doge = new doge(50, 100, h/2-25, h/2+25, 0, 15);
+var doge;
 
-var pipes = [];
+var pipes;
 
 var pipesCounter = 0;
 
