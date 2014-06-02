@@ -70,9 +70,6 @@ function Paint() {
 	ctx.strokeStyle = "black";
 	ctx.strokeRect(0, 0, w, h);
 
-	ctx.fillStyle = "white";
-	ctx.fillRect(0, 0, w, h);
-
 	//ctx.fillStyle = "orange";
 	//ctx.fillRect(doge.x1, doge.y1, (doge.x2 - doge.x1), (doge.y2 - doge.y1));
 ctx.drawImage(img, doge.x1, doge.y1);
