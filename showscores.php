@@ -24,15 +24,15 @@
 
 	function makeTable ($result) {
 	echo "<div class='xhdr'>
-		  <table class='' style=\"width: 100%; font-size: 20px;\">
+		  <table style='width: 100%; font-size: 20px;'>
 		  <tr>
-		  <td style=\"width: 65%;\"><div class='hdrcell'>Name</div></td>
-		  <td style=\"width: 35%;\"><div class='hdrcell'>Score</div></td>
+		  <td style='width: 65%;'><div class='hdrcell'>Name</div></td>
+		  <td style='width: 35%;'><div class='hdrcell'>Score</div></td>
 		  </tr>
 		  </table>
 		  </div>
 		  <div class='objbox'>
-		  <table class='obj row20' style=\"width: 100%;\">";
+		  <table class='obj row20' style='width: 100%;'>";
 	$count = 0;
 	while($row = mysqli_fetch_array($result)) {
 		if (strtoupper($row['Name'])==strtoupper($GLOBALS['n']) and $count%2==0) {
