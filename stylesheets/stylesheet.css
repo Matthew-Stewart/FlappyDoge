@@ -456,7 +456,7 @@ h1.title {
 }
 
 .wrapper {
-  width: 675px;
+  width: 1050px;
   margin: 0 auto;
 }
 
@@ -969,9 +969,8 @@ footer .owner p a {
 
 
 
-#game {
-  width:500px;
-  height:200px;
+#canvas {
+
 }
 
 html {
