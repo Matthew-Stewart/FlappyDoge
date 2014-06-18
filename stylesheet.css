@@ -1,0 +1,9 @@
+#game {
+	width:500px;
+	height:200px;
+}
+
+html {
+-ms-touch-action: manipulation;
+touch-action: manipulation;
+}
