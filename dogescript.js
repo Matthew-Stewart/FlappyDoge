@@ -8,6 +8,11 @@ var w = $('#canvas').width();
 var h = $('#canvas').height();
 var newScore = false;
 
+var img = new Image();
+    $(img).attr({
+        src: "doge.png"
+    });
+    
 var idTable = {};
 idTable['num']        = $("#num :selected").text();
 idTable['NorS']       = $("#NorS :selected").text();
@@ -283,10 +288,6 @@ $('#canvas').on('touchstart', function(){
 	doge.jump();
 });
 
-var img = new Image();
-    $(img).attr({
-        src: "doge.png"
-    });
 
 function incScore () {
 	score++;
