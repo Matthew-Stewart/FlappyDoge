@@ -8,11 +8,12 @@ var w = $('#canvas').width();
 var h = $('#canvas').height();
 var newScore = false;
 
+
 var img = new Image();
     $(img).attr({
         src: "doge.png"
     });
-    
+
 var idTable = {};
 idTable['num']        = $("#num :selected").text();
 idTable['NorS']       = $("#NorS :selected").text();
@@ -66,7 +67,9 @@ function showScores () {
 	  	}
 	
 	xmlhttp.open("GET","showscores.php?n="+name+"&l="+idTable[0]+"&o="+"false",true);
-	xmlhttp.send();
+	//xmlhttp.send();
+	//the above line is commented out or it will give errors when running locally 
+	//and cause the game to not work
 
 	xmlhttp2 = new XMLHttpRequest();
 	xmlhttp2.onreadystatechange=function() {
@@ -74,7 +77,9 @@ function showScores () {
 	  	}
 	
 	xmlhttp2.open("GET","showscores.php?n="+name+"&l="+idTable[0]+"&o="+"true",true);
-	xmlhttp2.send();
+	//xmlhttp2.send();
+	//the above line is commented out or it will give errors when running locally 
+	//and cause the game to not work
 }
 
 /*function filterScores () {
