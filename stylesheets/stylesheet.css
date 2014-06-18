@@ -964,3 +964,17 @@ footer .owner p a {
 .highlight .vg { color: #008080 } /* Name.Variable.Global */
 .highlight .vi { color: #008080 } /* Name.Variable.Instance */
 .highlight .il { color: #009999 } /* Literal.Number.Integer.Long */
+
+
+
+
+
+#game {
+  width:500px;
+  height:200px;
+}
+
+html {
+-ms-touch-action: manipulation;
+touch-action: manipulation;
+}
