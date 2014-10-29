@@ -267,6 +267,7 @@ function doge (x1, x2, y1, y2, direction, a) {
 var pipesCounter = 0;
 
 $(document).keydown(function(e){
+	e.preventDefault();
 	switch(e.which) {
 		case 32:
 			doge.jump();
