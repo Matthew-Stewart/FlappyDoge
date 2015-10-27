@@ -2,7 +2,7 @@
 	$n = strtoupper($_GET['n']);
 	$l = intval($_GET['l']);
 	$o = $_GET['o'];
-	$con=mysqli_connect("matthew-stewart.hopto.org","SQLConnection","sqlconnection","scores");
+   $con=mysqli_connect("HOST","USER","PASSWORD","DATABASE");
 	// Check connection
 	if (mysqli_connect_errno()) {
 		echo "Failed to connect to MySQL: " . mysqli_connect_error();
@@ -10,17 +10,14 @@
 
 	if ($o=="true") {
 		$result = mysqli_query($con,"SELECT * FROM scores WHERE UPPER(Name) = '$n' ORDER BY Score DESC LIMIT 10");
-		
+
 		makeTable ($result);
 	}
 	else {
 		$result = mysqli_query($con,"SELECT * FROM scores ORDER BY Score DESC LIMIT 10");
-		
+
 		makeTable ($result);
 	}
-	
-	//$result = mysqli_query($con,"UPDATE scores SET Name='Matthew' WHERE Name='0'");
-	//$result = mysqli_query($con,"DELETE FROM scores WHERE Name='Eric'");
 
 	function makeTable ($result) {
 	echo "<div class='xhdr'>
@@ -56,7 +53,7 @@
 	echo "</table>";
 
 
-	
+
 
 	}
 	mysqli_close($con);

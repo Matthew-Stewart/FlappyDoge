@@ -1,11 +1,14 @@
 <?php
+
+   // not currently working / not fully implemented
+
 	$num  = $_GET['a'];
 	$NorS = $_GET['b'];
 	$DorA = $_GET['c'];
 	$BEA  = $_GET['d'];
 	$SorN = $_GET['e'];
 
-	$con=mysqli_connect("matthew-stewart.hopto.org","SQLConnection","sqlconnection","scores");
+   $con=mysqli_connect("HOST","USER","PASSWORD","DATABASE");
 	// Check connection
 	if (mysqli_connect_errno()) {
 		echo "Failed to connect to MySQL: " . mysqli_connect_error();
@@ -43,7 +46,7 @@
 				break;
 		}
 	}
-	
+
 	else {
 		$result = mysqli_query($con,"SELECT * FROM scores WHERE (strpos('$SorN', Name) !== false) ORDER BY Score DESC LIMIT '$num'");
 	}

@@ -1,5 +1,7 @@
 $(document).ready(function () {
 
+// uncomment the following line if mobile devices are experiencing a tap delay
+// this can occur because the device is waiting to see if the user double taps
 //FastClick.attach(document.body);
 var name = prompt("Name?","");
 document.getElementById("name").innerHTML=name;
@@ -47,6 +49,10 @@ function submitScore (score) {
 	if (score > 0) {
 		xmlhttp = new XMLHttpRequest();
 		xmlhttp.onreadystatechange=function() {
+                   if (!document.getElementById("database1")) {
+                      document.getElementById("database").innerHTML = '<div id="database1" class="gridbox_dhx_skyblue gridbox" style="width: 50%;"></div>\n<div id="database2" class="gridbox_dhx_skyblue gridbox" style="width: 50%;"></div>'
+                      showScores();
+                   }
 	      	document.getElementById("database1").innerHTML = xmlhttp.responseText;
 	  	}
 
@@ -57,40 +63,46 @@ function submitScore (score) {
 	}
 		newScore = false;
 		return false;
-	
+
 }
 
 function showScores () {
 	xmlhttp = new XMLHttpRequest();
 	xmlhttp.onreadystatechange=function() {
+                if (!document.getElementById("database1")) {
+                          document.getElementById("database").innerHTML = '<div id="database1" class="gridbox_dhx_skyblue gridbox" style="width: 50%;"></div>\n<div id="database2" class="gridbox_dhx_skyblue gridbox" style="width: 50%;"></div>'
+                }
 	    	document.getElementById("database1").innerHTML = xmlhttp.responseText;
 	  	}
-	
+
 	xmlhttp.open("GET","showscores.php?n="+name+"&l="+idTable[0]+"&o="+"false",true);
-	//xmlhttp.send();
-	//the above line is commented out or it will give errors when running locally 
-	//and cause the game to not work
+	xmlhttp.send();
+	//the above line should be commented out when running locally
 
 	xmlhttp2 = new XMLHttpRequest();
 	xmlhttp2.onreadystatechange=function() {
-	    	document.getElementById("database2").innerHTML = xmlhttp2.responseText;
+                if (!document.getElementById("database2")) {
+                          document.getElementById("database").innerHTML = '<div id="database1" class="gridbox_dhx_skyblue gridbox" style="width: 50%;"></div>\n<div id="database2" class="gridbox_dhx_skyblue gridbox" style="width: 50%;"></div>'
+                       }
+		if (xmlhttp2.responseText.length > 0) {
+	    		document.getElementById("database2").innerHTML = xmlhttp2.responseText;
+		}
 	  	}
-	
+
 	xmlhttp2.open("GET","showscores.php?n="+name+"&l="+idTable[0]+"&o="+"true",true);
-	//xmlhttp2.send();
-	//the above line is commented out or it will give errors when running locally 
-	//and cause the game to not work
+	xmlhttp2.send();
+	//the above line should be commented out when running locally
 }
 
-/*function filterScores () {
+function filterScores () {
 	xmlhttp = new XMLHttpRequest();
 	xmlhttp.onreadystatechange=function() {
 	    	document.getElementById("database").innerHTML = xmlhttp.responseText;
 	  	}
-	
+
 	xmlhttp.open("GET","filterscores.php?a="+idTable[0]+"&b="+idTable[1]+"&c="+idTable[2]+"&d="+idTable[3]+"&e="+idTable[4],true);
 	xmlhttp.send();
-}*/
+}
 
 showScores();
 
@@ -112,22 +124,23 @@ function Paint() {
 		pipesCounter = 0;
 		var gap = Math.random()*(h-340)+75;
 		pipes.push(new Pipe(w, 150, gap, gap+190));
-		
+
 	}
 	else {
 		pipesCounter++;
 	}
 	for (var i in pipes) {
+            if (pipes[i]) {
 		pipes[i].x1 -= 5;
 		pipes[i].x2 -= 5;
-		
+
 		if (pipes[i].checkCollision(doge)) {
 			reset();
 		}
-		
+            }
 	}
-	if ((pipes[0].x1 < 30) && (pipesCounter == 100)){ incScore(); }
-		
+	if (pipes[0] && (pipes[0].x1 < 30) && (pipesCounter == 100)){ incScore(); }
+
 	//control doge
 	doge.y1 -= doge.a;
 	doge.y2 -= doge.a;
@@ -140,7 +153,7 @@ function Paint() {
 	if (doge.a > -16) {
 		doge.a -= 1
 	}
-	
+
 	//checking inputs for sorting scores
 	var num        = $("#num :selected").text();
 	var NorS       = $("#NorS :selected").text();
@@ -169,13 +182,13 @@ function Paint() {
 		idTable['scoreSort1'] = $("#scoreSort1")[0].innerHTML;
 		idTable['scoreSort2'] = $("#scoreSort2")[0].innerHTML;
 
-		//filterScores();
+		filterScores();
 		showScores();
 	}
 
 	if (num != idTable['num']) {
 		idTable['num'] = num;
-		//filterScores();
+		filterScores();
 		showScores();
 	}
 
@@ -207,7 +220,7 @@ ctx.drawImage(img, doge.x1, doge.y1);
 		//bot half
 		ctx.fillRect(pipes[i].x1, pipes[i].gapY2, 150, (h - pipes[i].gapY2));
 
-	
+
 	}
 
 	ctx.fillText("score: " + score, 5, h-10);
@@ -232,7 +245,7 @@ function Pipe (x1, width, gapY1, gapY2) {
 			return true;
 	}
 
-	
+
 //hitting bottom pipe
 if (thisDoge.y2 > this.gapY2 && thisDoge.x2 > this.x1 && thisDoge.x1 < this.x2) {
 			return true;
@@ -279,9 +292,10 @@ $(document).keydown(function(e){
 	switch(e.which) {
 		case 32:
 			doge.jump();
+         e.preventDefault();
 			break;
 		default:
-			//filterScores();
+			filterScores();
 			showScores();
 			break;
 	}
@@ -297,16 +311,6 @@ $('#canvas').on('touchstart', function(){
 function incScore () {
 	score++;
 }
-
-/*function scores (score) {
-	$.ajax({
-           url : "https://www.dropbox.com/s/l2m5mth4c124aer/scores.txt",
-           dataType: "text",
-           success : function (data) {
-               $("#text").text(data);
-           }
-       });
-}*/
 
 
 });
